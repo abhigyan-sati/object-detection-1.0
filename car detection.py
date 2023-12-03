@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
+
+#video capture
 cap = cv2.VideoCapture('cars.mp4')
 fps = cap.set(cv2.CAP_PROP_FPS,1)
+
+#variable
 min_contour_width=40  #40
 min_contour_height=40  #40
 offset=10   #10
@@ -20,10 +24,11 @@ def get_centroid(x, y, w, h):
     return cx,cy
     return [cx, cy]
 
-
+#video detailing
 cap.set(3,1920)
 cap.set(4,1080)
 
+ #frame read and compare
 if cap.isOpened():
     ret,frame1 = cap.read()
 else:
@@ -31,6 +36,7 @@ else:
 ret,frame1 = cap.read()
 ret,frame2 = cap.read()
 
+#video processing steps 
 while ret:
     d = cv2.absdiff(frame1,frame2)
     grey = cv2.cvtColor(d,cv2.COLOR_BGR2GRAY)
@@ -49,6 +55,7 @@ while ret:
         contour_valid = (w >= min_contour_width) and (
                 h >= min_contour_height)
 
+       # chatgpt code -----
         if not contour_valid:
             continue
         cv2.rectangle(frame1,(x-10,y-10),(x+w+10,y+h+10),(255,0,0),2)
